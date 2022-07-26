@@ -4,49 +4,80 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GarageTests {
     //TODO: Test Garage class
 
-    private Garage garage;
-    private Car car;
+    private Garage garage;  // problem is the same as Pet Store from Exam 18 April 2022 !!!
+    private Car first;
+    private Car second;
+    private Car third;
 
     @Before
     public void setUp() {
         garage = new Garage();
-        car = new Car("Lambo",350, 10000);
-        garage.addCar(car);   // tests addCar method
+        first = new Car("Audi", 150, 1000.5);
+        second = new Car("BMW", 120, 900.5);
+        third = new Car("Lada", 100, 170.5);
+
+        garage.addCar(first);
+        garage.addCar(second);
+        garage.addCar(third);
     }
 
-    // tests Collection Unmodifiable !!!
     @Test(expected = UnsupportedOperationException.class)
-    public void testThrowsExceptionForTryingToModifyUnmodifiableCollection(){
+    public void testShouldThrowExceptionForTryingToModifyUnmodifiableCollection() {
         garage.getCars().clear();
     }
 
-    // tests Constructor, addCar method when throws
+    //2. add car
+    // 2.1  if (car == null)  throw
     @Test(expected = IllegalArgumentException.class)
-    public void testShouldThrowExceptionForTryingToAddNullCarInTheGarage() {
+    public void testAddCarNullThrows() {
         garage.addCar(null);
     }
-    //below 3 tests: are built in "garage."
+
+    //2.2 add if there is space
     @Test
-    public void testShouldFindTheMostExpensiveCarByTheGivenPrice() {
-        Car mostExpensive = garage.getTheMostExpensiveCar();
-        Assert.assertEquals(car, mostExpensive);
-        Assert.assertEquals(1, garage.getCount());
+    public void addCar() {
+        Assert.assertEquals(3, garage.getCount());
     }
+
+    //car count check
     @Test
-    public void testFindAllCarsByBrand(){
-        List<Car> allCarsByBrand = garage.findAllCarsByBrand("Lambo");
-        Assert.assertEquals(car, allCarsByBrand.get(0));
+    public void carsCountInGarage() {
+        Assert.assertEquals(3, garage.getCount());
     }
+
+    // 3. Most Expensive
     @Test
-    public void testAllCarsWithMaxSpeedAbove(){
-        List<Car> allCarsWithMaxSpeedAbove =
-                garage.findAllCarsWithMaxSpeedAbove(200);
-        Assert.assertEquals(car,allCarsWithMaxSpeedAbove.get(0));
+    public void testTheMostExpensiveCar() {
+        Assert.assertEquals(first, garage.getTheMostExpensiveCar());
+    }
+
+    // 4. cars by given type
+    @Test
+    public void findAllCarsByTypeAudi() {
+        //Animal four = new Animal("Dog", 80, 120.5);
+        List<Car> expected = new ArrayList<>();
+        expected.add(first);
+        //expected.add(four);
+
+        List<Car> actual = garage.findAllCarsByBrand("Audi");
+        Assert.assertEquals(expected, actual);
+    }
+
+    // 5. cars with speed above 110 for ex.
+    @Test
+    public void findAllCarsWithMaxSpeedAbove() {
+        List<Car> expected = new ArrayList<>();
+        expected.add(first);
+        expected.add(second);
+
+        List<Car> actual = garage.findAllCarsWithMaxSpeedAbove(110);
+        Assert.assertEquals(expected, actual);
     }
 
 }
