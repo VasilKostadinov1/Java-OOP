@@ -28,6 +28,7 @@ public class SpaceshipTests {
         Assert.assertEquals("Softuni Profi", spaceship.getName());
         Assert.assertEquals(25, spaceship.getCapacity());
     }
+
     @Test(expected = NullPointerException.class)
     public void testSetNameThrowsNull() {
         new Spaceship(null, 15);
@@ -45,21 +46,6 @@ public class SpaceshipTests {
 
     //2. addAstronaut
     //2.1 adds successfully
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testAddShouldFailWithoutCapacity() {
-        Spaceship spaceship = new Spaceship("Softuni Profi", 1);
-        spaceship.add(first);
-        spaceship.add(second);
-    }
-    //2.2 adds in full -> throws
-    @Test(expected = IllegalArgumentException.class)
-    public void testAddShouldFailWithDuplicate() {
-        Spaceship spaceship = new Spaceship("Softuni Profi", 25);
-        spaceship.add(first);
-        spaceship.add(first);
-    }
-
     @Test
     public void testAddShouldWork() {
         Spaceship spaceship = new Spaceship("Softuni Profi", 25);
@@ -71,6 +57,31 @@ public class SpaceshipTests {
         Assert.assertEquals(3, spaceship.getCount());
     }
 
+//    @Test(expected = IllegalArgumentException.class)
+//    public void testAddShouldFailWithoutCapacity() {
+//        Spaceship spaceship = new Spaceship("Softuni Profi", 1);
+//        spaceship.add(first);
+//        spaceship.add(second);
+//    }
+
+    //2.2 adds in full -> throws
+    //if (astronauts.size() == this.getCapacity())
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddShouldFailWithDuplicate() {
+        Spaceship spaceship = new Spaceship("Softuni Profi", 1);
+        spaceship.add(first);
+        spaceship.add(second);
+    }
+
+    //if (astronautExists)
+    @Test(expected = IllegalArgumentException.class)
+    public void testForAlreadyExists(){
+        Spaceship spaceship = new Spaceship("Softuni Profi", 10);
+        Astronaut astro = new Astronaut("Astro",30);
+        spaceship.add(astro);
+        spaceship.add(astro);
+    }
+
     // 3. remove
     // 3.1 removes successfully
     @Test
@@ -80,8 +91,6 @@ public class SpaceshipTests {
         this.spaceship.remove(first.getName());
         Assert.assertEquals(0, spaceship.getCount());
     }
-
-
 
 
 }
