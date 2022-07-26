@@ -61,11 +61,11 @@ public class FarmvilleTests {  // 88/100 not working removing when animalExists
         farm.add(animal1);
     }
 
-    // not working ??? 88/100
+    // not working ??? 88/100 because capacity was 1 !!!
     //2.3 animal already exists ==  if (animalExists)
     @Test(expected = IllegalArgumentException.class)
     public void testForAnimalAlreadyExists() {
-        Farm farm = new Farm("Farm1", 1);
+        Farm farm = new Farm("Farm1", 10);
         Animal animal = new Animal("Mike", 20);
         farm.add(animal);
         farm.add(animal);
@@ -83,7 +83,7 @@ public class FarmvilleTests {  // 88/100 not working removing when animalExists
         Assert.assertEquals(0, farm.getCount());
     }
 
-    // 3.2 == same as 3.2
+    // 3.2 == same as 3.1
     @Test
     public void testShouldRemoveAnimalByGivenNameFromTheFarm() {
         Farm farm = new Farm("Farm1", 1);
